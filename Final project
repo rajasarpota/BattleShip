@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""Final Project - BattleShip Raj Asarpota CS 1311"""
+
+import random
+import turtle
+
+def TurtleWinner():
+    turtle.color('lime green')
+    style = ('Courier', 20, 'italic')
+    turtle.write("You're a war hero! You deserve an A on this project", font=style, align='center')
+    turtle.hideturtle()
+    
+def TurtleLoser():
+    turtle.color('red')
+    style = ('Courier', 18, 'italic')
+    turtle.write('Work on your aim next time! Please still give me an A though', font=style, align='center')
+    turtle.hideturtle()
+
+def PrintBoard(board):
+  for row in board:
+    print (" ".join(row))
+
+def RandomRow(board):
+  return random.randint(0,len(board)-1)
+
+def RandomCol(board):
+  return random.randint(0,len(board[0])-1)
+
+def main():
+    board = []
+
+    for x in range(0,5):
+        board.append(["O"]*5)
+        
+    print ("Let's play Battleship!", "\n")
+    print ("Rules: You have 5 turns to pick which row/column (from 0-4) the battleship is in", "\n")
+    PrintBoard(board)
+
+    ShipRow = RandomRow(board)
+    ShipCol = RandomCol(board)
+    print ("it's definitely not at the ",ShipRow," row and ",ShipCol," col")
+    
+    for turn in range(6):
+            GuessRow = int(input("Guess Row: "))
+            GuessCol = int(input("Guess Col: "))
+            
+            if GuessRow == ShipRow and GuessCol == ShipCol:
+              TurtleWinner()
+              print ("Congratulations! You sunk the battleship!")
+              break
+          
+            else:
+                if turn == 5:
+                    TurtleLoser()
+                    board[GuessRow][GuessCol] = "X"
+                    print ("\n", "GAME OVER")
+                    PrintBoard(board)
+                    print ("The ship was here: [" + str(ShipRow) + "][" + str(ShipCol) + "]")
+                
+                else:            
+                    if (GuessRow < 0 or GuessRow > 4) or (GuessCol < 0 or GuessCol > 4):
+                        print ("Way off, that's not even in the ocean.")
+                    elif(board[GuessRow][GuessCol] == "X"):
+                        print ("You already guessed that spot.")
+                    else:
+                        print ("\n", "You missed my battleship!")
+                        board[GuessRow][GuessCol] = "X"
+                    print ("Turn: ", turn + 1, "\n")
+                    PrintBoard(board)
+
+while True:
+    
+    main()
+    _continue_ = input("Do you want to play again? (y/Y)")
+    if (_continue_ == 'y') or (_continue_ == 'Y'):
+        turtle.resetscreen()
+        continue
+    else:
+        break
+
+
